@@ -30,7 +30,7 @@ export { DataGridRowTypes, GenerateHeaderOptions };
  *
  * @public
  */
-export type DataGridSelectionMode = "none" | "singleRow" | "multiRow";
+export type DataGridSelectionMode = "none" | "single-row" | "multi-row";
 
 /**
  * Defines a column in the grid
@@ -420,7 +420,7 @@ export class FASTDataGrid extends FASTElement {
         this.addEventListener(eventKeyDown, this.handleKeydown);
         this.addEventListener(eventFocusOut, this.handleFocusOut);
 
-        if (this.selectionMode === "singleRow" || this.selectionMode === "multiRow") {
+        if (this.selectionMode === "single-row" || this.selectionMode === "multi-row") {
             this.addEventListener("rowselectionchanged", this.handleRowSelectedChange);
         }
 
@@ -446,7 +446,7 @@ export class FASTDataGrid extends FASTElement {
         this.removeEventListener(eventKeyDown, this.handleKeydown);
         this.removeEventListener(eventFocusOut, this.handleFocusOut);
 
-        if (this.selectionMode === "singleRow" || this.selectionMode === "multiRow") {
+        if (this.selectionMode === "single-row" || this.selectionMode === "multi-row") {
             this.removeEventListener("rowselectionchanged", this.handleRowSelectedChange);
         }
 
@@ -598,7 +598,7 @@ export class FASTDataGrid extends FASTElement {
                     return;
                 }
                 switch (this.selectionMode) {
-                    case "multiRow":
+                    case "multi-row":
                         this.selectAllRows();
                         e.preventDefault();
                         return;
@@ -621,12 +621,12 @@ export class FASTDataGrid extends FASTElement {
             e.preventDefault();
             const changedRow: DataGridRow = rowMatch as DataGridRow;
             switch (this.selectionMode) {
-                case "singleRow":
+                case "single-row":
                     this.handleSingleRowSelection(changedRow);
                     this.$emit("selectionchanged");
                     break;
 
-                case "multiRow":
+                case "multi-row":
                     if (e.detail && (e.detail as MouseEvent | KeyboardEvent).shiftKey) {
                         if (this.lastNotShiftSelectedRowIndex === -1) {
                             this.handleSingleRowSelection(changedRow);
@@ -717,7 +717,7 @@ export class FASTDataGrid extends FASTElement {
     }
 
     private selectAllRows(): void {
-        if (this.selectionMode !== "multiRow" || this.rowElements.length === 0) {
+        if (this.selectionMode !== "multi-row" || this.rowElements.length === 0) {
             return;
         }
         const hasHeaderRow =
@@ -901,7 +901,10 @@ export class FASTDataGrid extends FASTElement {
             thisRow.rowIndex = index;
             thisRow.gridTemplateColumns = newGridTemplateColumns;
             thisRow.clickSelect = this.clickSelect;
-            if (this.selectionMode === "singleRow" || this.selectionMode === "multiRow") {
+            if (
+                this.selectionMode === "single-row" ||
+                this.selectionMode === "multi-row"
+            ) {
                 if (thisRow.rowType === "header" || thisRow.rowType === "sticky-header") {
                     thisRow.isSelectable = this.selectRowHeader;
                 } else {
