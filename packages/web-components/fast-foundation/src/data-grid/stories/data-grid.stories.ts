@@ -9,9 +9,11 @@ const storyTemplate = html<StoryArgs<FASTDataGrid>>`
         ?no-tabbing="${x => x.noTabbing}"
         generate-header="${x => x.generateHeader}"
         grid-template-columns="${x => x.gridTemplateColumns}"
-    >
-        ${x => x.storyContent}
-    </fast-data-grid>
+        click-select="${x => x.clickSelect}"
+        selection-mode="${x => x.selectionMode}"
+        unselectable-row-indexes="${x => x.unselectableRowIndexes}"
+        initial-row-selection="${x => x.initialRowSelection}"
+    ></fast-data-grid>
 `;
 
 export default {
@@ -61,10 +63,25 @@ export default {
             control: "select",
             options: Object.values(GenerateHeaderOptions),
         },
+
         gridTemplateColumns: { control: "text" },
         noTabbing: { control: "boolean" },
         rowsData: { control: "object" },
         storyContent: { table: { disable: true } },
+
+        selectionMode: {
+            options: ["none", "single-row", "multi-row"],
+            control: { type: "select" },
+        },
+        clickSelect: {
+            control: { type: "boolean" },
+        },
+        unselectableRowIndexes: {
+            control: { type: "text" },
+        },
+        initialRowSelection: {
+            control: { type: "text" },
+        },
     },
 } as Meta<FASTDataGrid>;
 
