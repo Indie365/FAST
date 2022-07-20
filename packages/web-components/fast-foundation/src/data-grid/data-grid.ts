@@ -965,7 +965,7 @@ export class FASTDataGrid extends FASTElement {
 
         if (this.selectionUpdated) {
             this.selectionUpdated = false;
-            this.$emit("selectionchanged");
+            this.$emit("selectionchange");
         }
     };
 }
